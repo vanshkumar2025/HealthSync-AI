@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HealthSync AI — Track calories, workouts, and hydration in a modern SaaS-style dashboard." />
+  <title>HealthSync AI — Your Fitness Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#6366f1" />
+</head>
+<body>
+<div id="app">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <span class="logo">⚡</span>
+      <span>HealthSync AI</span>
+    </div>
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-page="dashboard" role="tab" aria-selected="true" id="tab-dashboard">
+        <span class="tab-icon">🏠</span><span class="tab-label">Dashboard</span>
+      </button>
+      <button class="nav-tab" data-page="exercises" role="tab" id="tab-exercises">
+        <span class="tab-icon">🏋️</span><span class="tab-label">Exercises</span>
+      </button>
+      <button class="nav-tab" data-page="nutrition" role="tab" id="tab-nutrition">
+        <span class="tab-icon">🥗</span><span class="tab-label">Nutrition</span>
+      </button>
+      <button class="nav-tab" data-page="favorites" role="tab" id="tab-favorites">
+        <span class="tab-icon">❤️</span><span class="tab-label">Favorites</span>
+      </button>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">☀️</button>
+  </nav>
+
+  <section class="page active" id="page-dashboard" aria-labelledby="tab-dashboard">
+    <div class="page-header">
+      <h1>Good day! 👋</h1>
+      <p>Here's your health summary. Tap + / − to update your daily stats.</p>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card" style="--stat-color:#f59e0b">
+        <div class="stat-ring-wrap">
+          <svg width="88" height="88" viewBox="0 0 88 88">
+            <circle class="ring-track" cx="44" cy="44" r="36"/>
+            <circle class="ring-progress" cx="44" cy="44" r="36" id="ring-calories"/>
+          </svg>
+          <div class="stat-icon-inner">🔥</div>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-calories">0</div>
+          <div class="stat-label">Calories (kcal)</div>
+          <div class="stat-adjust">
+            <button class="stat-adjust-btn" data-metric="calories" data-amount="100" aria-label="Add 100 kcal" id="btn-cal-add">+</button>
+            <button class="stat-adjust-btn" data-metric="calories" data-amount="-100" aria-label="Remove 100 kcal" id="btn-cal-sub">−</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="--stat-color:#10b981">
+        <div class="stat-ring-wrap">
+          <svg width="88" height="88" viewBox="0 0 88 88">
+            <circle class="ring-track" cx="44" cy="44" r="36"/>
+            <circle class="ring-progress" cx="44" cy="44" r="36" id="ring-steps" style="stroke:#10b981"/>
+          </svg>
+          <div class="stat-icon-inner">👟</div>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-steps">0</div>
+          <div class="stat-label">Steps</div>
+          <div class="stat-adjust">
+            <button class="stat-adjust-btn" data-metric="steps" data-amount="500" aria-label="Add 500 steps" id="btn-steps-add">+</button>
+            <button class="stat-adjust-btn" data-metric="steps" data-amount="-500" aria-label="Remove 500 steps" id="btn-steps-sub">−</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="--stat-color:#06b6d4">
+        <div class="stat-ring-wrap">
+          <svg width="88" height="88" viewBox="0 0 88 88">
+            <circle class="ring-track" cx="44" cy="44" r="36"/>
+            <circle class="ring-progress" cx="44" cy="44" r="36" id="ring-water" style="stroke:#06b6d4"/>
+          </svg>
+          <div class="stat-icon-inner">💧</div>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-water">0 L</div>
+          <div class="stat-label">Water Intake</div>
+          <div class="stat-adjust">
+            <button class="stat-adjust-btn" data-metric="water" data-amount="0.25" aria-label="Add 250ml" id="btn-water-add">+</button>
+            <button class="stat-adjust-btn" data-metric="water" data-amount="-0.25" aria-label="Remove 250ml" id="btn-water-sub">−</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="--stat-color:#8b5cf6">
+        <div class="stat-ring-wrap">
+          <svg width="88" height="88" viewBox="0 0 88 88">
+            <circle class="ring-track" cx="44" cy="44" r="36"/>
+            <circle class="ring-progress" cx="44" cy="44" r="36" id="ring-workout" style="stroke:#8b5cf6"/>
+          </svg>
+          <div class="stat-icon-inner">⏱️</div>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-workout">0 min</div>
+          <div class="stat-label">Workout Time</div>
+          <div class="stat-adjust">
+            <button class="stat-adjust-btn" data-metric="workoutMinutes" data-amount="5" aria-label="Add 5 min" id="btn-workout-add">+</button>
+            <button class="stat-adjust-btn" data-metric="workoutMinutes" data-amount="-5" aria-label="Remove 5 min" id="btn-workout-sub">−</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-widgets">
+
+      <div class="widget">
+        <h3>💡 Daily Health Tips</h3>
+        <div id="health-tips" style="display:flex;flex-direction:column;gap:10px">
+          <div class="tip-card">
+            <span class="tip-icon">🥤</span>
+            <div class="tip-text"><strong>Hydration First</strong>Drink a glass of water before each meal to boost metabolism and reduce overeating.</div>
+          </div>
+          <div class="tip-card">
+            <span class="tip-icon">🏃</span>
+            <div class="tip-text"><strong>Move Every Hour</strong>Stand up and stretch for 2 minutes every hour to counteract the effects of sitting.</div>
+          </div>
+          <div class="tip-card">
+            <span class="tip-icon">😴</span>
+            <div class="tip-text"><strong>Prioritize Sleep</strong>Aim for 7–9 hours of quality sleep. It's when your body repairs and muscles grow.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <h3>💧 Water Glasses</h3>
+        <div class="water-tracker">
+          <div class="water-glasses" id="water-glasses">
+          </div>
+          <div class="water-label" id="water-glasses-label">0 / 8 glasses today</div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <h3>📊 Weekly Activity</h3>
+        <div class="weekly-chart" id="weekly-chart">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="page" id="page-exercises" aria-labelledby="tab-exercises">
+    <div class="page-header">
+      <h1>Exercise Explorer 🏋️</h1>
+      <p>Search, filter, and sort exercises from our library. ❤️ to save favourites.</p>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input
+          type="search"
+          class="search-input"
+          id="search-input"
+          placeholder="Search exercises…"
+          aria-label="Search exercises"
+          autocomplete="off"
+        />
+      </div>
+
+      <select class="filter-select" id="filter-bodypart" aria-label="Filter by body part">
+        <option value="all">All Body Parts</option>
+      </select>
+
+      <select class="filter-select" id="filter-equipment" aria-label="Filter by equipment">
+        <option value="">All Equipment</option>
+        <option value="barbell">Barbell</option>
+        <option value="dumbbell">Dumbbell</option>
+        <option value="body weight">Body Weight</option>
+        <option value="cable">Cable</option>
+        <option value="leverage machine">Machine</option>
+      </select>
+
+      <div class="sort-group">
+        <select class="filter-select" id="sort-select" aria-label="Sort by">
+          <option value="name">Name</option>
+          <option value="bodyPart">Body Part</option>
+        </select>
+        <button class="sort-dir-btn" id="sort-dir-btn" aria-label="Toggle sort direction" title="Toggle sort direction">↑</button>
+      </div>
+
+      <span class="result-count" id="result-count"></span>
+    </div>
+
+    <div class="cards-grid" id="exercise-grid" aria-live="polite">
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+  </section>
+
+  <section class="page" id="page-nutrition" aria-labelledby="tab-nutrition">
+    <div class="page-header">
+      <h1>Nutrition Tracker 🥗</h1>
+      <p>Search any food to see calories and macros. Log meals to your dashboard.</p>
+    </div>
+
+    <form class="nutrition-search-form" id="nutrition-form" role="search">
+      <input
+        type="text"
+        id="nutrition-input"
+        placeholder="e.g. 100g chicken breast, 1 banana, 2 eggs…"
+        aria-label="Search food items"
+        autocomplete="off"
+        required
+      />
+      <button type="submit" class="btn-primary" id="btn-nutrition-search">Search 🥦</button>
+    </form>
+
+    <div class="nutrition-grid" id="nutrition-grid" aria-live="polite">
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">🥗</div>
+        <h3>Search for a food item</h3>
+        <p>Enter any food or ingredient above to see its nutrition facts.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-favorites" aria-labelledby="tab-favorites">
+    <div class="page-header">
+      <h1>Favourites ❤️</h1>
+      <p>Your saved workouts — all in one place.</p>
+      <div class="favorites-count" id="favorites-count">❤️ 0 saved</div>
+    </div>
+
+    <div class="cards-grid" id="favorites-grid" aria-live="polite">
+    </div>
+  </section>
+
+</div>
+
+<div class="modal-overlay" id="exercise-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="modal-close" aria-label="Close modal">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const glassesEl = document.getElementById('water-glasses');
+    const glassLabel = document.getElementById('water-glasses-label');
+    if (glassesEl) {
+      let filled = Number(localStorage.getItem('hs_water_glasses') || 0);
+      const render = () => {
+        glassesEl.innerHTML = Array.from({length:8}, (_,i) =>
+          `<button class="glass-btn ${i < filled ? 'filled' : ''}" data-i="${i}" aria-label="Glass ${i+1}">💧</button>`
+        ).join('');
+        if(glassLabel) glassLabel.textContent = `${filled} / 8 glasses today`;
+        glassesEl.querySelectorAll('.glass-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.i);
+            filled = (idx < filled) ? idx : idx + 1;
+            localStorage.setItem('hs_water_glasses', filled);
+            render();
+          });
+        });
+      };
+      render();
+    }
+
+    const chartEl = document.getElementById('weekly-chart');
+    if (chartEl) {
+      const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      const todayIdx = (new Date().getDay() + 6) % 7; 
+      const heights = days.map((_,i) =>
+        i < todayIdx ? Math.floor(Math.random() * 55 + 30) :
+        i === todayIdx ? Math.floor(Math.random() * 40 + 20) : 0
+      );
+      chartEl.innerHTML = days.map((d,i) => {
+        const h = heights[i];
+        const isTd = i === todayIdx;
+        return `<div class="chart-bar-wrap">
+          <div class="chart-bar ${isTd ? 'today' : ''}" style="height:${h}%;" title="${d}: ${h}%"></div>
+          <span class="chart-day">${d}</span>
+        </div>`;
+      }).join('');
+    }
+
+    const updateFavCount = () => {
+      const el = document.getElementById('favorites-count');
+      if (!el) return;
+      const count = JSON.parse(localStorage.getItem('hs_favorites') || '[]').length;
+      el.textContent = `❤️ ${count} saved`;
+    };
+    updateFavCount();
+    window.addEventListener('storage', updateFavCount);
+    document.querySelectorAll('.nav-tab').forEach(t =>
+      t.addEventListener('click', () => setTimeout(updateFavCount, 100))
+    );
+  });
+</script>
+</body>
+</html>
